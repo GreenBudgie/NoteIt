@@ -1,12 +1,10 @@
 import './App.scss';
 import Sidebar from "./components/Sidebar/Sidebar";
 
-function App() {
+export default function App() {
   return (
     <>
       <Sidebar />
     </>
   );
 }
-
-export default App;
