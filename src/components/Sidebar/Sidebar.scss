@@ -1,0 +1,21 @@
+.sidebar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50px 0;
+  background-color: #494949;
+  width: 100px;
+  height: 100vh;
+
+  .sidebar-button {
+    background: none;
+    border: none;
+    outline: none;
+    transition: transform 0.25s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
