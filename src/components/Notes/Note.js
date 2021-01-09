@@ -1,11 +1,12 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
+import './Note.scss';
 
 const defaultWidth = 300;
 const defaultHeight = 500;
 
-export default function Note({maxWidth, maxHeight}) {
-  const [x, setX] = useState(Math.floor(Math.random() * (maxWidth - defaultWidth)));
-  const [y, setY] = useState(Math.floor(Math.random() * (maxHeight - defaultHeight)));
+export default function Note({maxX, maxY}) {
+  const [x, setX] = useState(Math.floor(Math.random() * (maxX - defaultWidth)));
+  const [y, setY] = useState(Math.floor(Math.random() * (maxY - defaultHeight)));
 
   return (
     <div 
