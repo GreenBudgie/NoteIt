@@ -4,20 +4,18 @@ import plus from './plus.svg';
 import folder from './folder.svg';
 import trash from './trash.svg';
 
-export default function Sidebar() {
+export default function Sidebar({addNote}) {
   return (
     <aside className="sidebar-wrapper">
-      <SidebarButton image={plus} alt="Add note" />
-      <SidebarButton image={folder} alt="Folder" />
-      <SidebarButton image={trash} alt="Delete note" />
+      <button className="sidebar-button" onClick={addNote}>
+        <img src={plus} alt="Add note"/>
+      </button>
+      <button className="sidebar-button">
+        <img src={folder} alt="Folder"/>
+      </button>
+      <button className="sidebar-button">
+        <img src={trash} alt="Delete note"/>
+      </button>
     </aside>
   )
 }
-
-function SidebarButton({image, alt}) {
-  return (
-    <button className="sidebar-button">
-      <img src={image} alt={alt}/>
-    </button>
-  );
-} 

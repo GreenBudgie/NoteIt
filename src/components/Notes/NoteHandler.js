@@ -2,16 +2,10 @@ import React, {useState} from 'react'
 import Note from '../Notes/Note'
 import './NoteHandler.scss';
 
-export default function NoteHandler() {
-  const [notes, setNotes] = useState([]);
-
-  function addNote() {
-    setNotes(prevNotes => prevNotes.push(new Note()));
-  }
-  
+export default function NoteHandler({notes}) {
   return (
     <div className="note-handler">
-      <Note />
+      {notes.map(note => {return <Note key={note.key} maxWidth={note.maxWidth} maxHeight={note.maxHeight} />})}
     </div>
   )
 }
