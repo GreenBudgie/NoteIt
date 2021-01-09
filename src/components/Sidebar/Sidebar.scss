@@ -12,20 +12,21 @@ $sidebar-width: 100px;
   box-shadow: 8px 0px 10px rgba(0, 0, 0, 0.25);
 
   .sidebar-button {
+    cursor: pointer;
     background: none;
     border: none;
     outline: none;
     width: $sidebar-width / 1.8;
     height: $sidebar-width / 1.8;
-    transition: transform 0.25s;
-
-    &:hover {
-      transform: scale(1.1);
-    }
 
     img {
       width: 100%;
       height: 100%;
+      transition: transform 0.25s;
+
+      &:hover {
+        transform: scale(1.1);
+      }
     }
   }
 }

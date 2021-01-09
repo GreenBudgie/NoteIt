@@ -6,18 +6,18 @@ import trash from './trash.svg';
 
 export default function Sidebar() {
   return (
-    <div className="sidebar-wrapper">
+    <aside className="sidebar-wrapper">
       <SidebarButton image={plus} alt="Add note" />
       <SidebarButton image={folder} alt="Folder" />
       <SidebarButton image={trash} alt="Delete note" />
-    </div>
+    </aside>
   )
 }
 
-function SidebarButton(props) {
+function SidebarButton({image, alt}) {
   return (
     <button className="sidebar-button">
-      <img src={props.image} alt={props.alt}/>
+      <img src={image} alt={alt}/>
     </button>
   );
 } 
