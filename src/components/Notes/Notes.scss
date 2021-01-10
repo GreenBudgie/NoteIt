@@ -10,6 +10,7 @@ $area-color: #FEFEFE;
 }
 
 .note-wrapper {
+  cursor: move;
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -42,8 +43,8 @@ $area-color: #FEFEFE;
     outline: none;
     resize: none;
     box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.25);
-    font-size: 24px;
-    line-height: 28px;
+    font-size: 20px;
+    line-height: 24px;
 
     &:focus {
       box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.25);
