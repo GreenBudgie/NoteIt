@@ -2,6 +2,7 @@ import React from 'react';
 import Note from './Note';
 import { v4 as uuid } from "uuid";
 import sizeMe from 'react-sizeme';
+import './Notes.scss';
 
 export const NoteContext = React.createContext();
 

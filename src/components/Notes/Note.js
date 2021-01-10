@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './Note.scss';
 
 const defaultWidth = 300;
 const defaultHeight = 500;
@@ -10,13 +9,15 @@ export default function Note({maxX, maxY}) {
 
   return (
     <div 
-      className="note-wrapper" 
+      className="note-wrapper"
       style={{
         transform: 'translate(' + x + 'px, ' + y + 'px)',
         width: defaultWidth + 'px',
         height: defaultHeight + 'px'
       }}
     >
+      <input type="text"/>
+      <textarea></textarea>
     </div>
   );
 }
