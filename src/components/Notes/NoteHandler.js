@@ -22,10 +22,16 @@ export function NoteProvider(props) {
 
 function NoteHandler(props) {
   const notes = React.useContext(NoteContext).notes;
+  const cursor = React.useRef({x: null, y: null, forceStop: false});
 
   return (
-    <div className="note-handler">
-      {notes.map(note => {return <Note key={note.key} maxX={props.size.width} maxY={props.size.height} />})}
+    <div 
+      className="note-handler" 
+      onMouseMove={event => {cursor.current.x = event.clientX; cursor.current.y = event.clientY}}
+      onMouseLeave={() => cursor.current.forceStop = true}
+      onMouseUp={() => cursor.current.forceStop = true}
+    >
+      {notes.map(note => {return <Note key={note.key} maxX={props.size.width} maxY={props.size.height} cursor={cursor}/>})}
     </div>
   )
 }
