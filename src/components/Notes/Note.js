@@ -20,7 +20,7 @@ export default function Note({maxX, maxY, cursor}) {
   }
 
   function startMoving(event) {
-    if(!movementStatus.current.moving) {
+    if(event.target.className === "note-wrapper" && !movementStatus.current.moving) {
       movementStatus.current = {moving: true, startX: x, startY: y, pivotX: event.clientX, pivotY: event.clientY};
       cursor.current.forceStop = false;
       intervalId.current = setInterval(() => {
