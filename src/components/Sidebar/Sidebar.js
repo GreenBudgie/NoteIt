@@ -9,10 +9,10 @@ export const sidebarWidth = 100;
 
 export default function Sidebar() {
   const addNoteFunc = React.useContext(NoteContext).addNote;
-
+  
   return (
     <aside className="sidebar-wrapper" style={{width: sidebarWidth + 'px'}}>
-      <button className="sidebar-button" onClick={addNoteFunc}>
+      <button className="sidebar-button" onClick={addNoteFunc} onDragStart={event => event.preventDefault()}>
         <img src={plus} alt="Add note"/>
       </button>
       <button className="sidebar-button">
