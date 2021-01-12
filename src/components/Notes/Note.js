@@ -1,23 +1,23 @@
 import React, { useState, useRef } from 'react';
 import { ResizableBox } from 'react-resizable'
+import sizeMe from 'react-sizeme';
 
 const defaultWidth = 300;
 const defaultHeight = 500;
 
-export default function Note({maxX, maxY, cursor}) {
-  const [width, setWidth] = useState(defaultWidth);
-  const [height, setHeight] = useState(defaultHeight);
-  const [x, setX] = useState(Math.floor(Math.random() * (maxX - width)));
-  const [y, setY] = useState(Math.floor(Math.random() * (maxY - height)));
+function Note({maxX, maxY, cursor}) {
+  const [x, setX] = useState(Math.floor(Math.random() * (maxX - defaultWidth)));
+  const [y, setY] = useState(Math.floor(Math.random() * (maxY - defaultHeight)));
   
   const movementStatus = useRef({moving: false, startX: null, startY: null, pivotX: null, pivotY: null});
   const intervalId = useRef(null);
+  const ref = useRef(null);
 
   //Sets the current position relative to the NoteHandler. Prevents the note from going outside the boundaries.
   function setPosition(x, y) {
     const clamp0 = (n, max) => n < 0 ? 0 : (n > max ? max : n);
-    setX(clamp0(x, Math.floor(maxX - width)));
-    setY(clamp0(y, Math.floor(maxY - height)));
+    setX(clamp0(x, maxX - ref.current.state.width));
+    setY(clamp0(y, maxY - ref.current.state.height));
   }
 
   function startMoving(event) {
@@ -52,6 +52,9 @@ export default function Note({maxX, maxY, cursor}) {
       className="resizable-wrapper"
       width={defaultWidth}
       height={defaultHeight}
+      minConstraints={[240, 200]}
+      maxConstraints={[maxX - x, maxY - y]}
+      ref={ref}
       style={{
         transform: 'translate(' + x + 'px, ' + y + 'px)'
       }}
@@ -66,3 +69,5 @@ export default function Note({maxX, maxY, cursor}) {
     </ResizableBox>
   );
 }
+
+export default Note;
