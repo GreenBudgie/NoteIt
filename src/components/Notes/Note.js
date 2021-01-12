@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { ResizableBox } from 'react-resizable'
 
 const defaultWidth = 300;
 const defaultHeight = 500;
@@ -47,17 +48,21 @@ export default function Note({maxX, maxY, cursor}) {
   }
 
   return (
-    <div 
-      className="note-wrapper"
-      onMouseDown={startMoving}
+    <ResizableBox
+      className="resizable-wrapper"
+      width={defaultWidth}
+      height={defaultHeight}
       style={{
-        transform: 'translate(' + x + 'px, ' + y + 'px)',
-        width: defaultWidth + 'px',
-        height: defaultHeight + 'px'
+        transform: 'translate(' + x + 'px, ' + y + 'px)'
       }}
     >
-      <input type="text"/>
-      <textarea></textarea>
-    </div>
+      <div 
+        className="note-wrapper"
+        onMouseDown={startMoving}
+      >
+        <input type="text"/>
+        <textarea></textarea>
+      </div>
+    </ResizableBox>
   );
 }
