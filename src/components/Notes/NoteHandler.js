@@ -10,11 +10,15 @@ export function NoteProvider(props) {
   const [notes, setNotes] = React.useState([]);
 
   function addNote() {
-    setNotes(prevNotes => [...notes, {key:uuid()}]);
+    setNotes(prevNotes => [...prevNotes, {key:uuid(), byDragging: false}]);
+  }
+
+  function addNoteByDragging() {
+    setNotes(prevNotes => [...prevNotes, {key:uuid(), byDragging: true}]);
   }
 
   return (
-    <NoteContext.Provider value={{notes, addNote}}>
+    <NoteContext.Provider value={{notes, addNote, addNoteByDragging}}>
       {props.children}
     </NoteContext.Provider>
   )
@@ -25,7 +29,7 @@ function NoteHandler(props) {
 
   return (
     <div className="note-handler">
-      {notes.map(note => {return <Note key={note.key} maxX={props.size.width} maxY={props.size.height} cursor={props.cursor}/>})}
+      {notes.map(note => {return <Note key={note.key} byDragging={note.byDragging} maxX={props.size.width} maxY={props.size.height} cursor={props.cursor}/>})}
     </div>
   )
 }

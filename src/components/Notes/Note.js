@@ -6,15 +6,40 @@ const defaultWidth = 300;
 const defaultHeight = 500;
 const sidebarResizeFactor = 0.25;
 
-function Note({maxX, maxY, cursor}) {
-  //x coordinate might be negative down to -sidebarWidth 
-  const [x, setX] = useState(Math.floor(Math.random() * (maxX - defaultWidth)));
-  const [y, setY] = useState(Math.floor(Math.random() * (maxY - defaultHeight)));
+function Note({maxX, maxY, cursor, byDragging}) {
+  let currentX, currentY;
+  if(byDragging) {
+    currentX = cursor.current.x - defaultWidth / 2;
+    currentY = cursor.current.y - defaultHeight / 2;
+  } else {
+    currentX = Math.floor(Math.random() * (maxX - defaultWidth));
+    currentY = Math.floor(Math.random() * (maxY - defaultHeight));
+  }
+
+  const [x, setX] = useState(currentX);
+  const [y, setY] = useState(currentY);
   const [moveStyle, setMoveStyle] = useState({scale: 1, opacity: 1});
 
   const movementStatus = useRef({moving: false, startX: null, startY: null, pivotX: null, pivotY: null, sidebar: false});
   const intervalId = useRef(null);
   const boxRef = useRef(null);
+
+  React.useEffect(() => {
+    if(byDragging) {
+      movementStatus.current = {
+        moving: true, 
+        startX: cursor.current.x, 
+        startY: cursor.current.y, 
+        pivotX: cursor.current.x, 
+        pivotY: cursor.current.y, 
+        sidebar: true }
+      cursor.current.forceStop = false;
+      setMoveStyle({scale: 0.98, opacity: 0.9});
+      intervalId.current = setInterval(() => {
+        handleMovement();
+      }, 20);
+    }
+  }, []);
 
   //Sets the current position relative to the NoteHandler. Prevents the note from going outside the page, but includes negative x
   //coordinates to allow moving on sidebar. Returns whether the note is on sidebar.
@@ -42,7 +67,7 @@ function Note({maxX, maxY, cursor}) {
     if(event.target.className === "note-wrapper" && !movementStatus.current.moving) {
       movementStatus.current = {moving: true, startX: x, startY: y, pivotX: event.clientX, pivotY: event.clientY, sidebar: false};
       cursor.current.forceStop = false;
-      setMoveStyle({scale: 0.98, opacity: 0.9, smooth: false});
+      setMoveStyle({scale: 0.98, opacity: 0.9});
       intervalId.current = setInterval(() => {
         handleMovement();
       }, 20);
