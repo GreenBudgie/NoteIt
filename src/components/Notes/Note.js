@@ -19,12 +19,16 @@ function Note({maxX, maxY, cursor}) {
   //Sets the current position relative to the NoteHandler. Prevents the note from going outside the page, but includes negative x
   //coordinates to allow moving on sidebar. Returns whether the note is on sidebar.
   function setPositionIncludeSidebar(x, y) {
-    const clampSidebarWidth = (n, max) => n > max ? max : n;
-    const clamp0 = (n, max) => n < 0 ? 0 : (n > max ? max : n);
-    const newX = clampSidebarWidth(x, maxX - boxRef.current.state.width);
-    setX(newX);
-    setY(clamp0(y, maxY - boxRef.current.state.height));
-    return newX < 0;
+    const onSidebar = cursor.current.x < sidebarWidth;
+    if(onSidebar) {
+      setX(x);
+      setY(y);
+    } else {
+      const clamp0 = (n, max) => n < 0 ? 0 : (n > max ? max : n);
+      setX(clamp0(x, maxX - boxRef.current.state.width));
+      setY(clamp0(y, maxY - boxRef.current.state.height));
+    }
+    return onSidebar;
   }
 
   //Recalculates the note position to fit the NoteHandler size
@@ -38,7 +42,7 @@ function Note({maxX, maxY, cursor}) {
     if(event.target.className === "note-wrapper" && !movementStatus.current.moving) {
       movementStatus.current = {moving: true, startX: x, startY: y, pivotX: event.clientX, pivotY: event.clientY, sidebar: false};
       cursor.current.forceStop = false;
-      setMoveStyle({scale: 0.98, opacity: 0.9});
+      setMoveStyle({scale: 0.98, opacity: 0.9, smooth: false});
       intervalId.current = setInterval(() => {
         handleMovement();
       }, 20);
@@ -48,9 +52,10 @@ function Note({maxX, maxY, cursor}) {
   function handleMovement() {
     if(cursor.current.x == null || cursor.current.y == null || cursor.current.forceStop == null) return;
     if(movementStatus.current.moving && !cursor.current.forceStop) {
-      const onSidebar = setPositionIncludeSidebar(movementStatus.current.startX + (cursor.current.x - movementStatus.current.pivotX), 
-                                                movementStatus.current.startY + (cursor.current.y - movementStatus.current.pivotY));
+      const onSidebar = cursor.current.x < sidebarWidth;
       movementStatus.current.sidebar = onSidebar;
+      setPositionIncludeSidebar(movementStatus.current.startX + (cursor.current.x - movementStatus.current.pivotX), 
+                                                movementStatus.current.startY + (cursor.current.y - movementStatus.current.pivotY));
     } else stopMoving();
   }
 
@@ -59,7 +64,7 @@ function Note({maxX, maxY, cursor}) {
       recalculatePosition();
       movementStatus.current.moving = false;
       movementStatus.current.sidebar = false;
-      setMoveStyle({scale: 1, opacity: 1});
+      setMoveStyle({scale: 1, opacity: 1, smooth: false});
       if(intervalId.current != null) {
         clearInterval(intervalId.current);
       }
