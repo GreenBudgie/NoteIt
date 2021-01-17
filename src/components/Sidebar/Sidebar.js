@@ -21,7 +21,7 @@ export default function Sidebar() {
       <SidebarItem 
         image={plus}
         alt="Add note"
-        onClick = {addNote}
+        onClick={addNote}
         onDrag={addNoteByDragging}
       />
       <SidebarItem 

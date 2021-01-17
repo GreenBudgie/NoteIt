@@ -29,7 +29,14 @@ function NoteHandler(props) {
 
   return (
     <div className="note-handler">
-      {notes.map(note => {return <Note key={note.key} byDragging={note.byDragging} maxX={props.size.width} maxY={props.size.height} cursor={props.cursor}/>})}
+      {notes.map(note => { return (
+          <Note 
+            key={note.key} 
+            byDragging={note.byDragging} 
+            maxX={props.size.width} 
+            maxY={props.size.height} 
+            cursor={props.cursor}/>
+        )})}
     </div>
   )
 }
