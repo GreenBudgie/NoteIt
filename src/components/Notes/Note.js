@@ -3,34 +3,40 @@ import {NoteContext} from '../Notes/NoteHandler'
 import Draggable from 'react-draggable';
 import { ResizableBox } from 'react-resizable'
 import sizeMe from 'react-sizeme';
+import pinIn from './pin-in.svg';
+import pinOut from './pin-out.svg';
 
 const defaultWidth = 300;
 const defaultHeight = 500;
 
 function Note({maxX, maxY, size}) {
 
-  const notes = React.useContext(NoteContext).notes;
   const position = useRef(getRandomPosition());
+  const [dragging, setDragging] = useState(false);
 
   function getRandomPosition() {
     return {x: Math.floor(Math.random() * (maxX - defaultWidth)), y: Math.floor(Math.random() * (maxY - defaultHeight))};
   }
 
-  function getChildNote(children) {
+  function getChildNote(children, className) {
     for(let item of children) {
-      if(item.classList.contains("note-wrapper")) return item;
+      if(item.classList.contains(className)) return item;
     }
     return null;
   }
 
   function dragStart(event, node) {
-    let note = getChildNote(node.node.children);
+    setDragging(true);
+    let note = getChildNote(node.node.children, "note-wrapper");
     note.classList.add("note-drag");
+    getChildNote(note.children, "pin").classList.add("pin-drag");
   }
 
   function dragStop(event, node) {
-    
-    getChildNote(node.node.children).classList.remove("note-drag");
+    setDragging(false);
+    let note = getChildNote(node.node.children, "note-wrapper");
+    note.classList.remove("note-drag");
+    getChildNote(note.children, "pin").classList.remove("pin-drag");
   }
 
   function handleDrag(event, node) {
@@ -56,6 +62,7 @@ function Note({maxX, maxY, size}) {
         maxConstraints={[maxX - position.current.x, maxY - position.current.y]}
       > 
         <div className="note-wrapper">
+          <img className="pin" src={dragging ? pinOut : pinIn} alt="pin" draggable="false"/>
           <input type="text"/>
           <textarea></textarea>
         </div>
