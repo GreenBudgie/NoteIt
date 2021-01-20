@@ -10,15 +10,11 @@ export function NoteProvider(props) {
   const [notes, setNotes] = React.useState([]);
 
   function addNote() {
-    setNotes(prevNotes => [...prevNotes, {key:uuid(), byDragging: false}]);
-  }
-
-  function addNoteByDragging() {
-    setNotes(prevNotes => [...prevNotes, {key:uuid(), byDragging: true}]);
+    setNotes(prevNotes => [...prevNotes, {key:uuid()}]);
   }
 
   return (
-    <NoteContext.Provider value={{notes, addNote, addNoteByDragging}}>
+    <NoteContext.Provider value={{notes, addNote}}>
       {props.children}
     </NoteContext.Provider>
   )
